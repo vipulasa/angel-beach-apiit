@@ -16,6 +16,10 @@ Auth::routes();
 
 Route::prefix('admin')
     ->name('admin.')
+    ->middleware([
+        'auth',
+        'auth.admin'
+    ])
     ->group(function () {
 
         Route::get('dashboard', [
