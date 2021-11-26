@@ -17,7 +17,13 @@ Auth::routes();
 Route::prefix('admin')
     ->name('admin.')
     ->group(function () {
-        Route::resource('/users', \App\Http\Controllers\UserController::class);
+
+        Route::get('dashboard', [
+            \App\Http\Controllers\AdminDashboardController::class,
+            'index'
+        ])->name('dashboard');
+
+        Route::resource('users', \App\Http\Controllers\UserController::class);
 
         Route::resource('roles', \App\Http\Controllers\RoleController::class);
     });
