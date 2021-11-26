@@ -7,6 +7,17 @@
             <div class="card">
                 <div class="card-header">{{ __('Dashboard') }}</div>
 
+                <ul>
+                    @foreach(['breakfast', 'tea', 'test', 'dinner', 'lunch'] as $menus)
+                       <li>
+                           <a href="{{ route('menu', [$menus]) }}">
+                               View {{ $menus }} menu
+                           </a>
+                       </li>
+                    @endforeach
+                </ul>
+
+
                 <div class="card-body">
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
