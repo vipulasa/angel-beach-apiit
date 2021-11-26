@@ -17,15 +17,9 @@ Auth::routes();
 Route::prefix('admin')
     ->name('admin.')
     ->group(function () {
+        Route::resource('/users', \App\Http\Controllers\UserController::class);
 
-        Route::get('/users', function () {
-            // Matches The "/admin/users" URL
-        })->name('users');
-
-        Route::get('/roles', function () {
-            // Matches The "/admin/users" URL
-        })->name('roles');
-
+        Route::resource('roles', \App\Http\Controllers\RoleController::class);
     });
 
 
