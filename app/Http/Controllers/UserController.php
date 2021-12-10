@@ -66,7 +66,9 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('admin.users.edit');
+        return view('admin.users.edit', [
+            'user' => $user
+        ]);
     }
 
     /**
@@ -78,7 +80,7 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        dd($request->all());
     }
 
     /**
