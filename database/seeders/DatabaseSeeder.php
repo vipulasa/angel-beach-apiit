@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -24,6 +25,19 @@ class DatabaseSeeder extends Seeder
             'remember_token' => Str::random(10),
             'is_admin' => 1
         ]);
+
+        (new Role())->create([
+            'name' => 'Admin'
+        ]);
+
+        (new Role())->create([
+            'name' => 'Moderator'
+        ]);
+
+        (new Role())->create([
+            'name' => 'Site User'
+        ]);
+
 
          \App\Models\User::factory(50)->create();
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -68,7 +69,8 @@ class UserController extends Controller
     public function edit(User $user)
     {
         return view('admin.users.edit', [
-            'user' => $user
+            'user' => $user,
+            'roles' => (new Role())->where('status', 1)->get()
         ]);
     }
 
@@ -96,6 +98,8 @@ class UserController extends Controller
             'is_admin' => $request->is_admin,
             'password' => $request->has('password') ? Hash::make($request->password) : $user->password
         ]);
+
+        $user->roles()->sync($request->roles);
 
         return redirect()
             ->route('admin.users.show', $user->id)

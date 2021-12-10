@@ -27,18 +27,24 @@
 
                         @can('access-administration')
                             <div>
-                                <form method="post" action="{{ route('admin.users.destroy', $user->id) }}" class="d-inline">
+                                <form method="post" action="{{ route('admin.users.destroy', $user->id) }}"
+                                      class="d-inline">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger float-right btn-sm">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                                            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                             fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                            <path
+                                                d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                            <path fill-rule="evenodd"
+                                                  d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
                                         </svg>
                                     </button>
                                 </form>
                             </div>
                         @endcan
+
+                        <h5>Profile</h5>
 
                         <ul class="list-unstyled">
                             <li class="py-2">
@@ -58,8 +64,21 @@
                             </li>
                         </ul>
 
+                        <h5>Roles</h5>
+                        @if($user->roles && $user->roles->count())
+                            <ul class="list-unstyled">
+                                @foreach($user->roles as $role)
+                                    <li class="py-2">
+                                        <strong class="mr-4">{{ $role->name }}</strong>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @else
+                            <small>No roles allocated to this user</small>
+                        @endif
+
                         @can('access-administration')
-                            <div>
+                            <div class="mt-4">
                                 <a href="{{ route('admin.users.edit', $user->id) }}"
                                    class="btn btn-primary">{{ __('Edit') }}</a>
                             </div>

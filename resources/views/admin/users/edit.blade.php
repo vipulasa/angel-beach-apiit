@@ -92,7 +92,20 @@
                                 >
                                 <label class="form-check-label" for="is_admin">Is Administrator</label>
                             </div>
-                            <button type="submit" class="btn btn-primary">Update</button>
+
+                            <h5>Roles</h5>
+                            @foreach($roles as $role)
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="role_{{ $role->id }}" name="roles[]" value="{{ $role->id }}"
+                                        {{ !old('roles') && $user->roles->contains($role->id) ? 'checked' : '' }}
+                                        {{ old('roles') && in_array($role->id, old('roles')) ? 'checked' : '' }}
+                                    >
+                                    <label class="form-check-label" for="role_{{ $role->id }}">{{ $role->name }}</label>
+                                </div>
+                            @endforeach
+
+
+                            <button type="submit" class="btn btn-primary mt-4">Update</button>
                         </form>
                     </div>
                 </div>
