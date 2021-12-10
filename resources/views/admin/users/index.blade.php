@@ -9,6 +9,12 @@
 
                     <div class="card-body">
 
+                        @if(session()->has('success'))
+                            <div class="alert alert-success">
+                                {{ session()->get('success') }}
+                            </div>
+                        @endif
+
                         <table class="table table-hover">
                             <thead>
                             <tr>
@@ -47,8 +53,19 @@
                                            class="btn btn-success">{{ __('View') }}</a>
                                         <a href="{{ route('admin.users.edit', $user->id) }}"
                                            class="btn btn-primary">{{ __('Edit') }}</a>
-                                        <a href="{{ route('admin.users.destroy', $user->id) }}"
-                                           class="btn btn-danger">{{ __('Delete') }}</a>
+
+                                        <a class="btn btn-danger"
+                                           onclick="confirm('Are you sure you want to delete {{ $user->email }} ?') ? document.getElementById('delete-user-{{ $user->id }}-form').submit() : 0">
+                                            Delete
+                                        </a>
+
+                                        <form method="post"
+                                              id="delete-user-{{ $user->id }}-form"
+                                              action="{{ route('admin.users.destroy', $user->id) }}"
+                                              class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach
