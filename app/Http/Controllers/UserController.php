@@ -14,7 +14,14 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('admin.users.index');
+        // The index method is used to retrieve all the records from the database.
+
+        // Retrieve all the users from the database
+        $users = User::all();
+
+        return view('admin.users.index', [
+            'users' => $users
+        ]);
     }
 
     /**

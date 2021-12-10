@@ -34,7 +34,7 @@ Route::prefix('admin')
 
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 Route::get('/menu/{name?}', function ($name = null) {
