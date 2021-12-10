@@ -23,11 +23,22 @@
                             @method('PATCH')
                             @csrf
 
+{{--                            @if($errors)--}}
+{{--                                @foreach($errors->all() as $error)--}}
+{{--                                    <div class="alert alert-danger">{{ $error }}</div>--}}
+{{--                                @endforeach--}}
+{{--                            @endif--}}
+
                             <div class="form-group">
                                 <label for="name">Name</label>
-                                <input type="text" class="form-control" id="name"
+                                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
                                        name="name"
-                                       aria-describedby="nameHelp" value="{{ $user->name }}" />
+                                       aria-describedby="nameHelp" value="{{ old('name') ? old('name') : $user->name }}"/>
+                                @error('name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                                 <small id="nameHelp" class="form-text text-muted">
                                     Your full name
                                 </small>
@@ -35,9 +46,15 @@
 
                             <div class="form-group">
                                 <label for="mobile">Mobile</label>
-                                <input type="text" class="form-control" id="mobile"
+                                <input type="text" class="form-control @error('mobile') is-invalid @enderror" id="mobile"
                                        name="mobile"
-                                       aria-describedby="mobileHelp" value="{{ $user->mobile }}">
+                                       aria-describedby="mobileHelp" value="{{ old('mobile') ? old('mobile') : $user->mobile }}">
+
+                                @error('mobile')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                                 <small id="mobileHelp" class="form-text text-muted">
                                     Your personal mobile number
                                 </small>
@@ -45,9 +62,15 @@
 
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <input type="email" class="form-control" id="email"
-                                       name="mobile"
-                                       aria-describedby="emailHelp" value="{{ $user->email }}">
+                                <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
+                                       name="email"
+                                       aria-describedby="emailHelp"
+                                       value="{{ old('email') ? old('email') : $user->email }}">
+                                @error('email')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                                 <small id="emailHelp" class="form-text text-muted">
                                     Your email
                                 </small>
@@ -64,7 +87,9 @@
 
                             <div class="form-group form-check">
                                 <input type="checkbox" class="form-check-input" id="is_admin" name="is_admin" value="1"
-                                {{ $user->is_admin ? 'checked' : '' }}>
+                                    {{ !old('is_admin') && $user->is_admin ? 'checked' : '' }}
+                                    {{ old('is_admin') ? 'checked' : '' }}
+                                >
                                 <label class="form-check-label" for="is_admin">Is Administrator</label>
                             </div>
                             <button type="submit" class="btn btn-primary">Update</button>

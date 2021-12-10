@@ -80,7 +80,24 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        dd($request->all());
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'mobile' => 'required'
+        ]);
+
+        $request->offsetSet('is_admin', $request->has('is_admin') ? 1 : 0);
+
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'mobile' => $request->mobile,
+            'is_admin' => $request->is_admin
+        ]);
+
+        return redirect()
+            ->route('admin.users.show', $user->id)
+            ->with('success', 'User updated successfully');
     }
 
     /**

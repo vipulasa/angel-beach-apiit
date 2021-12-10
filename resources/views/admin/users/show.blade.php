@@ -29,6 +29,9 @@
                                 <strong class="mr-4">Mobile:</strong> {{ $user->mobile }}
                             </li>
                             <li class="py-2">
+                                <strong class="mr-4">Administrator:</strong> {{ $user->is_admin ? 'Yes' : 'No' }}
+                            </li>
+                            <li class="py-2">
                                 <strong class="mr-4">Created At:</strong> {{ $user->created_at }}
                             </li>
                         </ul>
