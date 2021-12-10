@@ -18,6 +18,13 @@
                         </a>
                     </div>
                     <div class="card-body">
+
+                        @if(session()->has('success'))
+                            <div class="alert alert-success">
+                                {{ session()->get('success') }}
+                            </div>
+                        @endif
+
                         <ul class="list-unstyled">
                             <li class="py-2">
                                 <strong class="mr-4">Name:</strong> {{ $user->name }}
