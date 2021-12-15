@@ -64,6 +64,44 @@
                             </div>
 
                             <div class="form-group">
+                                jQuery
+                                <label for="phone">Phone Numbers</label>
+
+                                <button type="button"
+                                        id="add-another-number"
+                                        class="btn btn-secondary ml-4 btn-sm">Add Another
+                                </button>
+
+                                <div id="numbers">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="phone_numbers[]"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group" x-data="{
+                                phoneNumbers : ['0777123123', '0777678678']
+                            }">
+                                Alpine JS
+                                <label for="phone">Phone Numbers</label>
+
+                                <button type="button"
+                                        x-on:click="phoneNumbers.push('')"
+                                        class="btn btn-secondary ml-4 btn-sm">Add Another
+                                </button>
+                                <div>
+                                    <template x-for="(number, index) in phoneNumbers">
+                                        <div class="form-group">
+                                            <input type="text"
+                                                   class="form-control"
+                                                   name="phone_numbers[]" x-bind:value="number"/>
+                                            <a x-on:click="phoneNumbers.splice(index, 1)">Remove</a>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <label for="email">Email</label>
                                 <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
                                        name="email"
@@ -102,7 +140,8 @@
                             <div class="form-group">
                                 <label for="street">Street</label>
                                 <textarea class="form-control @error('street') is-invalid @enderror" id="street"
-                                          name="street" aria-describedby="streetHelp">{{ old('street') ? old('street') : $user->address->street }}</textarea>
+                                          name="street"
+                                          aria-describedby="streetHelp">{{ old('street') ? old('street') : $user->address->street }}</textarea>
                                 @error('street')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -124,7 +163,8 @@
 
                             <div class="form-group">
                                 <label for="province">Province</label>
-                                <input type="text" class="form-control @error('province') is-invalid @enderror" id="province"
+                                <input type="text" class="form-control @error('province') is-invalid @enderror"
+                                       id="province"
                                        value="{{ old('province') ? old('province') : $user->address->province }}"
                                        name="province"/>
                                 @error('province')
@@ -136,7 +176,8 @@
 
                             <div class="form-group">
                                 <label for="postal_code">Postal Code</label>
-                                <input type="text" class="form-control @error('postal_code') is-invalid @enderror" id="postal_code"
+                                <input type="text" class="form-control @error('postal_code') is-invalid @enderror"
+                                       id="postal_code"
                                        value="{{ old('postal_code') ? old('postal_code') : $user->address->postal_code }}"
                                        name="postal_code"/>
                                 @error('postal_code')
@@ -146,7 +187,7 @@
                                 @enderror
                             </div>
 
-                            <hr />
+                            <hr/>
                             <h5>Roles</h5>
                             @foreach($roles as $role)
                                 <div class="form-check">
@@ -166,4 +207,22 @@
             </div>
         </div>
     </div>
+
+    <script>
+        (function ($) {
+
+            $('#add-another-number').on('click', function (e) {
+                e.preventDefault();
+
+                let phoneNumber = $('<div class="form-group"><input type="text" class="form-control" name="phone_numbers[]" /><a href="#">Remove</a></div>');
+
+                $('a', phoneNumber).on('click', function () {
+                    $(this).parent().remove();
+                });
+
+                $('#numbers').append(phoneNumber);
+            });
+
+        })(jQuery);
+    </script>
 @endsection

@@ -56,6 +56,21 @@
                             <li class="py-2">
                                 <strong class="mr-4">Mobile:</strong> {{ $user->mobile }}
                             </li>
+
+                            @if($user->phoneNumbers && $user->phoneNumbers->count())
+                                <li class="py-2">
+                                    <strong class="mr-4">Phone numbers:</strong>
+                                    <ul class="list-unstyled">
+                                        @foreach($user->phoneNumbers as $phoneNumber)
+                                            <li class="py-2 bg-info rounded p-3">
+                                                <strong class="mr-4">{{ $phoneNumber->phone_number }}</strong>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </li>
+                            @endif
+
+
                             <li class="py-2">
                                 <strong class="mr-4">Administrator:</strong> {{ $user->is_admin ? 'Yes' : 'No' }}
                             </li>

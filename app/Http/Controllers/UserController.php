@@ -133,6 +133,8 @@ class UserController extends Controller
             'postal_code' => 'required'
         ]);
 
+        dd($request->all());
+
         $request->offsetSet('is_admin', $request->has('is_admin') ? 1 : 0);
 
         $user->update([
