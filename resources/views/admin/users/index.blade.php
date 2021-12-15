@@ -5,7 +5,12 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">{{ __('Users') }}</div>
+                    <div class="card-header">
+                        {{ __('Users') }}
+                        <a href="{{ route('admin.users.create') }}" class="btn btn-primary float-right">
+                            {{ __('Create') }}
+                        </a>
+                    </div>
 
                     <div class="card-body">
 

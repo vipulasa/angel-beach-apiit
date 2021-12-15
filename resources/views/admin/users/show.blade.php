@@ -64,6 +64,22 @@
                             </li>
                         </ul>
 
+                        <h5 class="mt-4">Address</h5>
+                        <ul class="list-unstyled">
+                            <li class="py-2">
+                                <strong class="mr-4">Street:</strong> {{ $user->address->street }}
+                            </li>
+                            <li class="py-2">
+                                <strong class="mr-4">City:</strong> {{ $user->address->city }}
+                            </li>
+                            <li class="py-2">
+                                <strong class="mr-4">Province:</strong> {{ $user->address->province }}
+                            </li>
+                            <li class="py-2">
+                                <strong class="mr-4">Postal Code:</strong> {{ $user->address->postal_code }}
+                            </li>
+                        </ul>
+
                         <h5>Roles</h5>
                         @if($user->roles && $user->roles->count())
                             <ul class="list-unstyled">

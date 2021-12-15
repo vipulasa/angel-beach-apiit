@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Address;
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -33,7 +34,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('admin.users.create');
+        return view('admin.users.create', [
+            'roles' => (new Role())->where('status', 1)->get()
+        ]);
     }
 
     /**
@@ -44,7 +47,42 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'mobile' => 'required',
+            'password' => 'required',
+            'street' => 'required',
+            'city' => 'required',
+            'province' => 'required',
+            'postal_code' => 'required'
+        ]);
+
+        $request->offsetSet('is_admin', $request->has('is_admin') ? 1 : 0);
+
+        $address = (new Address())->create([
+            'street' => $request->get('street'),
+            'city' => $request->get('city'),
+            'province' => $request->get('province'),
+            'postal_code' => $request->get('postal_code')
+        ]);
+
+        // Create a new user
+        $user = (new User())->create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password,
+            'mobile' => $request->mobile,
+            'is_admin' => $request->is_admin,
+            'address_id' => $address->id,
+        ]);
+
+        // Assign the user to the role
+        $user->roles()->attach($request->roles);
+
+        return redirect()
+            ->route('admin.users.show', $user->id)
+            ->with('success', 'User created successfully');
     }
 
     /**
@@ -55,6 +93,8 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+//        dd($user->address);
+
         return view('admin.users.show', [
             'user' => $user
         ]);
@@ -86,7 +126,11 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|email',
-            'mobile' => 'required'
+            'mobile' => 'required',
+            'street' => 'required',
+            'city' => 'required',
+            'province' => 'required',
+            'postal_code' => 'required'
         ]);
 
         $request->offsetSet('is_admin', $request->has('is_admin') ? 1 : 0);
@@ -96,9 +140,24 @@ class UserController extends Controller
             'email' => $request->email,
             'mobile' => $request->mobile,
             'is_admin' => $request->is_admin,
-            'password' => $request->has('password') ? Hash::make($request->password) : $user->password
+            'password' => $request->has('password') ? Hash::make($request->password) : $user->password,
         ]);
 
+        // update user address
+        $user->address()->update([
+            'street' => $request->street,
+            'city' => $request->city,
+            'province' => $request->province,
+            'postal_code' => $request->postal_code
+        ]);
+
+        // Remove all the relations
+        // $user->roles()->detach();
+
+        // Attach a relationship
+        // $user->roles()->attach($request->roles);
+
+        // sync relations
         $user->roles()->sync($request->roles);
 
         return redirect()

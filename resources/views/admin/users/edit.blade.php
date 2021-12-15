@@ -23,19 +23,20 @@
                             @method('PATCH')
                             @csrf
 
-{{--                            @if($errors)--}}
-{{--                                @foreach($errors->all() as $error)--}}
-{{--                                    <div class="alert alert-danger">{{ $error }}</div>--}}
-{{--                                @endforeach--}}
-{{--                            @endif--}}
+                            {{--                            @if($errors)--}}
+                            {{--                                @foreach($errors->all() as $error)--}}
+                            {{--                                    <div class="alert alert-danger">{{ $error }}</div>--}}
+                            {{--                                @endforeach--}}
+                            {{--                            @endif--}}
 
                             <div class="form-group">
                                 <label for="name">Name</label>
                                 <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
                                        name="name"
-                                       aria-describedby="nameHelp" value="{{ old('name') ? old('name') : $user->name }}"/>
+                                       aria-describedby="nameHelp"
+                                       value="{{ old('name') ? old('name') : $user->name }}"/>
                                 @error('name')
-                                    <span class="invalid-feedback" role="alert">
+                                <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
@@ -46,12 +47,14 @@
 
                             <div class="form-group">
                                 <label for="mobile">Mobile</label>
-                                <input type="text" class="form-control @error('mobile') is-invalid @enderror" id="mobile"
+                                <input type="text" class="form-control @error('mobile') is-invalid @enderror"
+                                       id="mobile"
                                        name="mobile"
-                                       aria-describedby="mobileHelp" value="{{ old('mobile') ? old('mobile') : $user->mobile }}">
+                                       aria-describedby="mobileHelp"
+                                       value="{{ old('mobile') ? old('mobile') : $user->mobile }}">
 
                                 @error('mobile')
-                                    <span class="invalid-feedback" role="alert">
+                                <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
@@ -93,17 +96,68 @@
                                 <label class="form-check-label" for="is_admin">Is Administrator</label>
                             </div>
 
+                            <hr/>
+                            <h5>Address</h5>
+
+                            <div class="form-group">
+                                <label for="street">Street</label>
+                                <textarea class="form-control @error('street') is-invalid @enderror" id="street"
+                                          name="street" aria-describedby="streetHelp">{{ old('street') ? old('street') : $user->address->street }}</textarea>
+                                @error('street')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label for="city">City</label>
+                                <input type="text" class="form-control @error('city') is-invalid @enderror" id="city"
+                                       value="{{ old('city') ? old('city') : $user->address->city }}"
+                                       name="city"/>
+                                @error('city')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label for="province">Province</label>
+                                <input type="text" class="form-control @error('province') is-invalid @enderror" id="province"
+                                       value="{{ old('province') ? old('province') : $user->address->province }}"
+                                       name="province"/>
+                                @error('province')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label for="postal_code">Postal Code</label>
+                                <input type="text" class="form-control @error('postal_code') is-invalid @enderror" id="postal_code"
+                                       value="{{ old('postal_code') ? old('postal_code') : $user->address->postal_code }}"
+                                       name="postal_code"/>
+                                @error('postal_code')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+
+                            <hr />
                             <h5>Roles</h5>
                             @foreach($roles as $role)
                                 <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="role_{{ $role->id }}" name="roles[]" value="{{ $role->id }}"
+                                    <input type="checkbox" class="form-check-input" id="role_{{ $role->id }}"
+                                           name="roles[]" value="{{ $role->id }}"
                                         {{ !old('roles') && $user->roles->contains($role->id) ? 'checked' : '' }}
                                         {{ old('roles') && in_array($role->id, old('roles')) ? 'checked' : '' }}
                                     >
                                     <label class="form-check-label" for="role_{{ $role->id }}">{{ $role->name }}</label>
                                 </div>
                             @endforeach
-
 
                             <button type="submit" class="btn btn-primary mt-4">Update</button>
                         </form>
