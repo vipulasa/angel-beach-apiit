@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Address;
+use App\Models\Phone;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -133,8 +134,6 @@ class UserController extends Controller
             'postal_code' => 'required'
         ]);
 
-        dd($request->all());
-
         $request->offsetSet('is_admin', $request->has('is_admin') ? 1 : 0);
 
         $user->update([
@@ -152,6 +151,17 @@ class UserController extends Controller
             'province' => $request->province,
             'postal_code' => $request->postal_code
         ]);
+
+        if ($request->phone_numbers && count($request->phone_numbers)) {
+            foreach ($request->phone_numbers as $number) {
+                if ($number) {
+                    (new Phone())->updateOrCreate([
+                        'user_id' => $user->id,
+                        'phone_number' => $number
+                    ]);
+                }
+            }
+        }
 
         // Remove all the relations
         // $user->roles()->detach();

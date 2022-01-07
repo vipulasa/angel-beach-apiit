@@ -73,15 +73,28 @@
                                 </button>
 
                                 <div id="numbers">
+                                    @foreach($user->phoneNumbers as $number)
                                     <div class="form-group">
-                                        <input type="text" class="form-control" name="phone_numbers[]"/>
+                                        <input type="text" class="form-control" name="phone_numbers[]" value="{{ $number->phone_number }}"/>
+                                        <a href="#" class="remove-number">Remove</a>
                                     </div>
+                                    @endforeach
                                 </div>
                             </div>
 
+{{--                                                            [--}}
+{{--                                                                @foreach($user->phoneNumbers as $number)--}}
+{{--                                                                    '{{ $number->phone_number }}',--}}
+{{--                                                                @endforeach--}}
+{{--                                                            ]--}}
+
                             <div class="form-group" x-data="{
-                                phoneNumbers : ['0777123123', '0777678678']
-                            }">
+                                phoneNumbers : [
+                                    @foreach($user->phoneNumbers as $number)
+                                        '{{ $number->phone_number }}',
+                                    @endforeach
+                                ]
+                                }">
                                 Alpine JS
                                 <label for="phone">Phone Numbers</label>
 
@@ -221,6 +234,10 @@
                 });
 
                 $('#numbers').append(phoneNumber);
+            });
+
+            $('.remove-number').on('click', function () {
+                $(this).parent().remove();
             });
 
         })(jQuery);
